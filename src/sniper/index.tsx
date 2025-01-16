@@ -1,19 +1,25 @@
 
 import cn from 'classnames'
 import paper from 'paper'
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import {showPoint, drawXYSniper, randomPoint,getRandomColor,removeLayer} from '@/utils/paperjsWeapon'
+import fightGun from '@/assets/audio/fight-sound-effect.mp3'
 import imgurl from '@/assets/只狼.jpeg'
+import ScoreBoard from '@/sniper/ScoreBoard'
 import shoutGun from '@/assets/audio/submachine-gun.mp3'
 
 export default function SniperComp() {
   const canvasRef = useRef(null) as any
+  const [scoreData, setscoreData] = useState({
+    name: 'player1',
+    score: 0
+  })
   let enemy = null as any
   let tool = null as any
   const initCanvas = () => {
     if (!canvasRef.current) return
-    canvasRef.current.style.cursor = "crosshair";
+    canvasRef.current.style.cursor = "none";
     paper.setup(canvasRef.current);
   };
   const generateEnemy = () => {
@@ -42,7 +48,16 @@ export default function SniperComp() {
       // 命中
       console.log('命中')
       enemy.remove()
+      const audio = new Audio(fightGun); // 音效文件路径
+      audio.play();
       generateEnemy()
+      setscoreData((prev) => {
+        const newValue = {
+          ...prev,
+          score: prev.score + 10
+        }
+        return newValue
+      })
     } 
     console.log('未命中')
   }
@@ -79,10 +94,11 @@ export default function SniperComp() {
   return (
     <div className={cn(
       "relative w-full h-full",
-      "flex justify-center items-center",
+      "flex justify-around",
       'bg-black'
     )}>
-      <canvas ref={canvasRef} className="w-full h-full" />
+      <canvas ref={canvasRef} className="w-[calc(100%_-_200px)] h-full markBorderC" />
+      <ScoreBoard scoreData={ scoreData} />
     </div>
   )
 }
