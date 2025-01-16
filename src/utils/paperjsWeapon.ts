@@ -24,44 +24,9 @@ export const removeLayer = (
     target.remove();
   }
 };
-// 指定项目绘制坐标层
-export const drawXY = (currentProject: paper.Project) => {
-  console.log("drawXY>>>");
-  if (!currentProject) {
-    return;
-  }
-  const WIDTH = currentProject.view.bounds.width;
-  const HEIGHT = currentProject.view.bounds.height;
-  console.log('WIDTH>>>', WIDTH)
-  console.log('HEIGHT>>>', HEIGHT)
-  currentProject.activate();
-  removeLayer(currentProject, "layerXY");
-  const layerXY = new paper.Layer();
-  layerXY.name = "layerXY";
-  const currentCenter = currentProject.view.center;
-  new paper.Path.Line({
-    from: new paper.Point(currentCenter.x - WIDTH / 2, currentCenter.y),
-    to: new paper.Point(currentCenter.x + WIDTH / 2, currentCenter.y),
-    strokeColor: "red",
-    strokeWidth: getViewBorderSize(currentProject)
-  });
-  new paper.Path.Line({
-    from: new paper.Point(currentCenter.x, currentCenter.y - HEIGHT / 2),
-    to: new paper.Point(currentCenter.x, currentCenter.y + HEIGHT / 2),
-    strokeColor: "red",
-    strokeWidth: getViewBorderSize(currentProject)
-  });
-  new paper.PointText({
-    point: currentCenter.add(2),
-    content: `(${currentCenter.x.toFixed(2)} , ${currentCenter.y.toFixed(2)})`,
-    fillColor: "red",
-    justification: "left",
-    fontWeight: "bold",
-    fontSize: getViewFontSize(currentProject)
-  });
-};
+
 // 指定项目绘制坐标层-鼠标移动版本
-export const drawXYV2 = (currentProject: paper.Project,center: paper.Point) => {
+export const drawXY = (currentProject: paper.Project,center: paper.Point) => {
   console.log("drawXY>>>");
   if (!currentProject) {
     return;
@@ -77,23 +42,64 @@ export const drawXYV2 = (currentProject: paper.Project,center: paper.Point) => {
   new paper.Path.Line({
     from: new paper.Point(0, center.y),
     to: new paper.Point(WIDTH, center.y),
-    strokeColor: "red",
+    strokeColor: "white",
     strokeWidth: getViewBorderSize(currentProject)
   });
   new paper.Path.Line({
     from: new paper.Point(center.x, 0),
     to: new paper.Point(center.x, HEIGHT),
-    strokeColor: "red",
+    strokeColor: "white",
     strokeWidth: getViewBorderSize(currentProject)
   });
   new paper.PointText({
-    point: center.add(2),
+    point: center.add(new paper.Point(5, -5)),
     content: `(${center.x.toFixed(2)} , ${center.y.toFixed(2)})`,
-    fillColor: "red",
+    fillColor: "white",
     justification: "left",
     fontWeight: "bold",
     fontSize: getViewFontSize(currentProject)
   });
+};
+// 指定项目绘制坐标层-鼠标移动版本
+export const drawXYSniper = (currentProject: paper.Project,center: paper.Point) => {
+  if (!currentProject) {
+    return;
+  }
+  const WIDTH = currentProject.view.bounds.width;
+  const HEIGHT = currentProject.view.bounds.height;
+  console.log('WIDTH>>>', WIDTH)
+  console.log('HEIGHT>>>', HEIGHT)
+  currentProject.activate();
+  removeLayer(currentProject, "layerXY");
+  const layerXY = new paper.Layer();
+  layerXY.name = "layerXY";
+  new paper.Path.Line({
+    from: new paper.Point(0, center.y),
+    to: new paper.Point(WIDTH, center.y),
+    strokeColor: "white",
+    strokeWidth: getViewBorderSize(currentProject)
+  });
+  new paper.Path.Line({
+    from: new paper.Point(center.x, 0),
+    to: new paper.Point(center.x, HEIGHT),
+    strokeColor: "white",
+    strokeWidth: getViewBorderSize(currentProject)
+  });
+  new paper.PointText({
+    point: center.add(new paper.Point(5, -5)),
+    content: `(${center.x.toFixed(2)} , ${center.y.toFixed(2)})`,
+    fillColor: "white",
+    justification: "left",
+    fontWeight: "bold",
+    fontSize: getViewFontSize(currentProject)
+  });
+  new paper.Path.Circle({
+    center: center,
+    radius: 200,
+    strokeColor: 'red',
+    strokeWidth: getViewBorderSize(currentProject)
+
+  })
 };
 export const showPoint = (point:paper.Point, color:paper.Color | null) => {
   const p = new paper.Path.Circle({

@@ -3,7 +3,7 @@ import cn from 'classnames'
 import paper from 'paper'
 import { useEffect, useRef } from "react"
 
-import {showPoint, drawXYV2} from '@/utils/paperjsWeapon'
+import {showPoint, drawXYSniper} from '@/utils/paperjsWeapon'
 import imgurl from '@/assets/只狼.jpeg'
 
 export default function SniperComp() {
@@ -30,7 +30,7 @@ export default function SniperComp() {
 
     };
     tool.onMouseMove = (e: any) => {
-      drawXYV2(paper.project, e.point)
+      drawXYSniper(paper.project, e.point)
       console.log('paper>>>', paper)
 
     };
@@ -43,7 +43,7 @@ export default function SniperComp() {
   useEffect(() => {
     window.devicePixelRatio = 1
     initCanvas();
-    drawPic();
+    // drawPic();
     initTool()
 
     
@@ -51,7 +51,8 @@ export default function SniperComp() {
   return (
     <div className={cn(
       "relative w-full h-full",
-      "flex justify-center items-center"
+      "flex justify-center items-center",
+      'bg-black'
     )}>
       <canvas ref={canvasRef} className="w-full h-full" />
     </div>
