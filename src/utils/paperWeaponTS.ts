@@ -1,21 +1,19 @@
-// // 基于paperjs的游戏引擎0.1版本库
-// import paper from "paper";
+import paper from 'paper';
 
 // // 删除指定project的某一层
-// export const removeLayer = (
-//   currentProject: paper.Project,
-//   layerName: string
-// ) => {
-//   if (!currentProject) return;
-//   currentProject.activate();
-//   let target = currentProject.layers.filter(
-//     (layer) => layer.name === layerName
-//   )[0];
-//   if (target) {
-//     target.remove();
-//     target = null;
-//   }
-// };
+export const removeLayer = (
+  currentProject: paper.Project,
+  layerName: string
+) => {
+  if (!currentProject) return;
+  currentProject.activate();
+  const target = currentProject.layers.filter(
+    (layer) => layer.name === layerName
+  )[0];
+  if (target) {
+    target.remove();
+  }
+};
 // // // 指定项目、层，绘制坐标图形
 // export const drawXY = (currentProject, layerName) => {
 //   if (!currentProject) return;
