@@ -1,23 +1,22 @@
+import cn from "classnames";
+import paper from "paper";
+import { useEffect, useRef, useState } from "react";
 
-import cn from 'classnames'
-import paper from 'paper'
-import { useEffect, useRef, useState } from "react"
-
-import { drawXYSniper, randomPoint,removeLayer} from '@/utils/paperjsWeapon'
-import fightGun from '@/assets/audio/fight-sound-effect.mp3'
-import ScoreBoard from '@/sniper/ScoreBoard'
-import shoutGun from '@/assets/audio/submachine-gun.mp3'
+import { drawXYSniper, randomPoint, removeLayer } from "@/utils/paperjsWeapon";
+import ScoreBoard from "@/sniper/ScoreBoard";
+import shoutGun from "@/assets/audio/submachine-gun.mp3";
+import victory from "@/assets/audio/victorymale-version.mp3";
 
 export default function SniperComp() {
-  const canvasRef = useRef(null) as any
+  const canvasRef = useRef(null) as any;
   const [scoreData, setscoreData] = useState({
-    name: 'player1',
-    score: 0
-  })
-  let enemy = null as any
-  let tool = null as any
+    name: "player1",
+    score: 0,
+  });
+  let enemy = null as any;
+  let tool = null as any;
   const initCanvas = () => {
-    if (!canvasRef.current) return
+    if (!canvasRef.current) return;
     canvasRef.current.style.cursor = "none";
     paper.setup(canvasRef.current);
   };
@@ -28,10 +27,10 @@ export default function SniperComp() {
     enemy = new paper.Path.Circle({
       center: randomPoint(paper.project),
       radius: 20,
-      fillColor: 'white'
+      fillColor: "white",
     });
-  }
-  
+  };
+
   // const drawPic = () => {
   //   const raster = new paper.Raster(imgurl);
   //   raster.onLoad = () => {
@@ -42,62 +41,63 @@ export default function SniperComp() {
     // 播放音效、发射子弹
     const audio = new Audio(shoutGun); // 音效文件路径
     audio.play();
-    if (!enemy) return
+    if (!enemy) return;
     if (enemy.contains(point)) {
       // 命中
-      console.log('命中')
-      enemy.remove()
-      const audio = new Audio(fightGun); // 音效文件路径
+      console.log("命中");
+      enemy.remove();
+      const audio = new Audio(victory); // 音效文件路径
       audio.play();
-      generateEnemy()
+      generateEnemy();
       setscoreData((prev) => {
         const newValue = {
           ...prev,
-          score: prev.score + 10
-        }
-        return newValue
-      })
-    } 
-    console.log('未命中')
-  }
+          score: prev.score + 10,
+        };
+        return newValue;
+      });
+    }
+    console.log("未命中");
+  };
   const initTool = () => {
     tool = new paper.Tool();
     tool.onMouseDown = (e: any) => {
       console.log("down", e.point);
       // gun fire
-      fire(e.point)
+      fire(e.point);
     };
     tool.onMouseDrag = (e: any) => {
       console.log("onMouseDrag", e.point);
-
     };
     tool.onMouseMove = (e: any) => {
-      drawXYSniper(paper.project, e.point)
-      console.log('paper>>>', paper)
+      drawXYSniper(paper.project, e.point);
+      console.log("paper>>>", paper);
     };
     tool.onMouseUp = (e: any) => {
       console.log("onMouseUp", e.point);
-
     };
     tool.activate();
   };
   useEffect(() => {
-    window.devicePixelRatio = 1
+    window.devicePixelRatio = 1;
     initCanvas();
     // drawPic();
-    initTool()
-    generateEnemy()
-
-    
-  }, [])
+    initTool();
+    generateEnemy();
+  }, []);
   return (
-    <div className={cn(
-      "relative w-full h-full",
-      "flex justify-around",
-      'bg-black'
-    )}>
-      <canvas ref={canvasRef} className="w-[calc(100%_-_200px)] h-full markBorderC" />
-      <ScoreBoard scoreData={ scoreData} />
+    <div
+      className={cn(
+        "relative w-full h-full",
+        "flex justify-around",
+        "bg-black",
+      )}
+    >
+      <canvas
+        ref={canvasRef}
+        className="w-[calc(100%_-_200px)] h-full markBorderC"
+      />
+      <ScoreBoard scoreData={scoreData} />
     </div>
-  )
+  );
 }
