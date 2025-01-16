@@ -79,27 +79,31 @@ export const drawXYSniper = (currentProject: paper.Project,center: paper.Point) 
     strokeColor: "white",
     strokeWidth: getViewBorderSize(currentProject)
   });
-  new paper.Path.Line({
-    from: new paper.Point(center.x, 0),
-    to: new paper.Point(center.x, HEIGHT),
-    strokeColor: "white",
-    strokeWidth: getViewBorderSize(currentProject)
-  });
-  new paper.PointText({
-    point: center.add(new paper.Point(5, -5)),
-    content: `(${center.x.toFixed(2)} , ${center.y.toFixed(2)})`,
-    fillColor: "white",
-    justification: "left",
-    fontWeight: "bold",
-    fontSize: getViewFontSize(currentProject)
-  });
-  new paper.Path.Circle({
-    center: center,
-    radius: 200,
-    strokeColor: 'red',
-    strokeWidth: getViewBorderSize(currentProject)
-
+  new paper.Group({
+    children: [
+      new paper.Path.Line({
+        from: new paper.Point(center.x, 0),
+        to: new paper.Point(center.x, HEIGHT),
+        strokeColor: "white",
+        strokeWidth: getViewBorderSize(currentProject)
+      }),
+      new paper.PointText({
+        point: center.add(new paper.Point(5, -5)),
+        content: `(${center.x.toFixed(2)} , ${center.y.toFixed(2)})`,
+        fillColor: "white",
+        justification: "left",
+        fontWeight: "bold",
+        fontSize: getViewFontSize(currentProject)
+      }),
+      new paper.Path.Circle({
+        center: center,
+        radius: 200,
+        strokeColor: 'red',
+        strokeWidth: getViewBorderSize(currentProject)
+      })
+    ]
   })
+
 };
 export const showPoint = (point:paper.Point, color:paper.Color | null) => {
   const p = new paper.Path.Circle({

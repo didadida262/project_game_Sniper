@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react"
 
 import {showPoint, drawXYSniper} from '@/utils/paperjsWeapon'
 import imgurl from '@/assets/只狼.jpeg'
+import shoutGun from '@/assets/audio/submachine-gun.mp3'
 
 export default function SniperComp() {
   const canvasRef = useRef(null) as any
@@ -14,16 +15,23 @@ export default function SniperComp() {
     canvasRef.current.style.cursor = "crosshair";
     paper.setup(canvasRef.current);
   };
-  const drawPic = () => {
-    const raster = new paper.Raster(imgurl);
-    raster.onLoad = () => {
-      raster.fitBounds(paper.view.bounds, false);
-    };
-  };
+  // const drawPic = () => {
+  //   const raster = new paper.Raster(imgurl);
+  //   raster.onLoad = () => {
+  //     raster.fitBounds(paper.view.bounds, false);
+  //   };
+  // };
+  const fire = () => {
+    // 播放音效、发射子弹
+    const audio = new Audio(shoutGun); // 音效文件路径
+    audio.play();
+  }
   const initTool = () => {
     tool = new paper.Tool();
     tool.onMouseDown = (e: any) => {
       console.log("down", e.point);
+      // gun fire
+      fire()
     };
     tool.onMouseDrag = (e: any) => {
       console.log("onMouseDrag", e.point);
@@ -32,7 +40,6 @@ export default function SniperComp() {
     tool.onMouseMove = (e: any) => {
       drawXYSniper(paper.project, e.point)
       console.log('paper>>>', paper)
-
     };
     tool.onMouseUp = (e: any) => {
       console.log("onMouseUp", e.point);
