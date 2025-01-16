@@ -1,3 +1,10 @@
+/*
+ * @Description:
+ * @Author: didadida262
+ * @Date: 2024-12-17 18:01:38
+ * @LastEditors: didadida262
+ * @LastEditTime: 2025-01-16 14:05:18
+ */
 'use client';
 
 import { Easing, motion } from 'motion/react';
