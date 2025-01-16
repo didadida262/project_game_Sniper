@@ -3,9 +3,8 @@ import cn from 'classnames'
 import paper from 'paper'
 import { useEffect, useRef, useState } from "react"
 
-import {showPoint, drawXYSniper, randomPoint,getRandomColor,removeLayer} from '@/utils/paperjsWeapon'
+import { drawXYSniper, randomPoint,removeLayer} from '@/utils/paperjsWeapon'
 import fightGun from '@/assets/audio/fight-sound-effect.mp3'
-import imgurl from '@/assets/只狼.jpeg'
 import ScoreBoard from '@/sniper/ScoreBoard'
 import shoutGun from '@/assets/audio/submachine-gun.mp3'
 

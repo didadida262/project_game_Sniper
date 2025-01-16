@@ -124,7 +124,7 @@ export const drawXYSniper = (currentProject: paper.Project,center: paper.Point) 
 
 };
 export const showPoint = (point:paper.Point, color:paper.Color | null) => {
-  const p = new paper.Path.Circle({
+  new paper.Path.Circle({
     center: point,
     radius: 8,
     fillColor: color
