@@ -3,35 +3,55 @@ import cn from 'classnames'
 import paper from 'paper'
 import { useEffect, useRef } from "react"
 
-import {showPoint, drawXYSniper} from '@/utils/paperjsWeapon'
+import {showPoint, drawXYSniper, randomPoint,getRandomColor,removeLayer} from '@/utils/paperjsWeapon'
 import imgurl from '@/assets/只狼.jpeg'
 import shoutGun from '@/assets/audio/submachine-gun.mp3'
 
 export default function SniperComp() {
   const canvasRef = useRef(null) as any
+  let enemy = null as any
   let tool = null as any
   const initCanvas = () => {
     if (!canvasRef.current) return
     canvasRef.current.style.cursor = "crosshair";
     paper.setup(canvasRef.current);
   };
+  const generateEnemy = () => {
+    removeLayer(paper.project, "layerEnemy");
+    const layerEnemy = new paper.Layer();
+    layerEnemy.name = "layerEnemy";
+    enemy = new paper.Path.Circle({
+      center: randomPoint(paper.project),
+      radius: 20,
+      fillColor: 'white'
+    });
+  }
+  
   // const drawPic = () => {
   //   const raster = new paper.Raster(imgurl);
   //   raster.onLoad = () => {
   //     raster.fitBounds(paper.view.bounds, false);
   //   };
   // };
-  const fire = () => {
+  const fire = (point: paper.Point) => {
     // 播放音效、发射子弹
     const audio = new Audio(shoutGun); // 音效文件路径
     audio.play();
+    if (!enemy) return
+    if (enemy.contains(point)) {
+      // 命中
+      console.log('命中')
+      enemy.remove()
+      generateEnemy()
+    } 
+    console.log('未命中')
   }
   const initTool = () => {
     tool = new paper.Tool();
     tool.onMouseDown = (e: any) => {
       console.log("down", e.point);
       // gun fire
-      fire()
+      fire(e.point)
     };
     tool.onMouseDrag = (e: any) => {
       console.log("onMouseDrag", e.point);
@@ -52,6 +72,7 @@ export default function SniperComp() {
     initCanvas();
     // drawPic();
     initTool()
+    generateEnemy()
 
     
   }, [])

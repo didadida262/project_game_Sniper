@@ -2,6 +2,24 @@
 
 import paper from "paper";
 
+// 判断一个点是否在path范围内
+
+export const getRandomColor = () => {
+  // rgba(x,y,z,透明度)
+  const r = Math.floor(Math.random() * 256)
+  const g = Math.floor(Math.random() * 256)
+  const b = Math.floor(Math.random() * 256)
+  const t = Math.random().toFixed(1)
+  return `rgba(${r}, ${g}, ${b}, ${t})`
+}
+
+// 以左上角为视图原点， 获取试图范围内的随机点
+  
+  export const randomPoint = (currentProject: paper.Project) => {
+  const WIDTH = currentProject.view.bounds.width;
+  const HEIGHT = currentProject.view.bounds.height;
+  return new paper.Point(WIDTH * Math.random(), HEIGHT * Math.random());
+};
 // 获取视图级别的字体大小
 export const getViewFontSize = (currentProject: paper.Project) => {
   const ratio = currentProject.view.zoom;
@@ -126,10 +144,7 @@ export const showPoint = (point:paper.Point, color:paper.Color | null) => {
 //   return false;
 // };
 
-// // 以左上角为视图原点， 获取试图范围内的随机点
-// export const randomPoint = (WIDTH, HEIGHT) => {
-//   return new paper.Point(WIDTH * Math.random(), HEIGHT * Math.random());
-// };
+
 
 // export const getRandomDirection = (position: paper.Point, range: number) => {
 //   const newX = position.x - range / 2 + range;
